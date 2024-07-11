@@ -1,0 +1,36 @@
+{
+  "projectName": {
+    "message": "请输入项目名称："
+  },
+  "shouldOverwrite": {
+    "dirForPrompts": {
+      "current": "当前目录",
+      "target": "目标文件夹"
+    },
+    "message": "非空，是否覆盖？"
+  },
+  "packageName": {
+    "message": "请输入包名称：",
+    "invalidMessage": "无效的 package.json 名称"
+  },
+  "needAxios": {
+    "message": "是否需要 axios 与其配置封装？"
+  },
+  "needUtils": {
+    "message": "是否需要一些开箱即用的工具？(详情请查看文档)"
+  },
+  "needsDevTools": {
+    "message": "是否引入 Vue DevTools ?"
+  },
+  "errors": {
+    "operationCancelled": "操作取消"
+  },
+  "defaultToggleOptions": {
+    "active": "是",
+    "inactive": "否"
+  },
+  "info": {
+    "scaffolding": "正在初始化项目",
+    "done": "项目初始化完成,可执行以下命令: "
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "create-vue-xy",
+  "version": "1.0.0",
+  "description": "A vue scaffolding ready for use",
+  "packageManager": "pnpm@9.4.0",
+  "type": "module",
+  "engines": {
+    "node": ">=v18.3.0"
+  },
+  "files": [
+    "./outfile.cjs",
+    "prompts/"
+  ],
+  "scripts": {
+    "build": "zx ./scripts/build.js",
+    "test": "pnpm build && node ./outfile.cjs"
+  },
+  "keywords": [],
+  "author": "xiaoyan13 <kurumi13233@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@tsconfig/node20": "^20.1.4",
+    "@types/node": "^20.14.10",
+    "esbuild": "^0.23.0",
+    "npm-run-all2": "^6.2.2",
+    "prettier": "^3.3.2",
+    "prompts": "^2.4.2",
+    "zx": "^8.1.4"
+  }
+}
