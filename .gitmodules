@@ -1,0 +1,3 @@
+[submodule "template/base"]
+	path = template/base
+	url = https://github.com/xiaoyan13/vue-templete

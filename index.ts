@@ -1,14 +1,13 @@
 import { parseArgs } from 'util';
 import fs from 'fs';
 import * as banners from './utils/banner';
-import { red } from 'kolorist';
+import { red, yellow, green, bold } from 'kolorist';
 import path from 'path';
 import prompts from 'prompts';
-import type { Prompts } from './prompts/types';
 import emptyDir from './utils/emptyDir';
 import { isValidPackageName, toValidPackageName } from './utils/packageName';
-// const promptsJSON = require('./prompts/index.json') as Prompts;
 import promptsJSON from './prompts/index.json';
+import { renderTemplate } from './utils/renderTemplate';
 
 // 处理命令行参数
 const args = process.argv.slice(2);
@@ -61,12 +60,14 @@ async function setup() {
 
   try {
     result = await getResult();
-    console.log('🚀 ~ setup ~ result:', result);
   } catch (cancelled) {
     console.log(cancelled);
     process.exit(1);
   }
 
+  // 我们从这里解构出来的是用户命令行交互的结果
+  // 我们仍然需要将该结果与用户首次运行命令的时候传入的参数选项结合
+  // 也就是说，解构的时候仍然需要对应的 argv 参数作为默认值
   const {
     projectName,
     // 包名如果解构不出，则默认值取 projectName
@@ -78,15 +79,44 @@ async function setup() {
   } = result;
 
   const cwd = process.cwd();
+  // 目标目录
   const root = path.join(cwd, targetDir);
+
+  console.log(`\n${promptsJSON.infos.scaffolding} ${root}...`);
+
   // 准备好空的文件夹，准备填充
   if (fs.existsSync(root) && shouldOverwrite) {
     emptyDir(root);
   } else if (!fs.existsSync(root)) {
     fs.mkdirSync(root);
   }
+  const pkg = { name: packageName, version: '0.0.0' };
+  fs.writeFileSync(
+    path.resolve(root, 'package.json'),
+    JSON.stringify(pkg, null, 2),
+  );
 
-  console.log(`\n${promptsJSON.infos.scaffolding} ${root}...`);
+  const templateRoot = path.resolve(cwd, 'template');
+  const callbacks = [];
+  renderTemplate(templateRoot, root, callbacks);
+
+  // 包管理器
+  const userAgent = process.env.npm_config_user_agent ?? '';
+  const packageManager = /pnpm/.test(userAgent)
+    ? 'pnpm'
+    : /yarn/.test(userAgent)
+      ? 'yarn'
+      : /bun/.test(userAgent)
+        ? 'bun'
+        : 'npm';
+  if (packageManager !== 'pnpm') {
+    console.log(
+      yellow('项目使用 pnpm 作为包管理器: 请留意，您使用的并不是 pnpm.'),
+    );
+  }
+  console.log(`\n${promptsJSON.infos.done}\n`);
+  
+  console.log(); 
 }
 
 async function getResult() {
