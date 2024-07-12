@@ -115,8 +115,20 @@ async function setup() {
     );
   }
   console.log(`\n${promptsJSON.infos.done}\n`);
-  
-  console.log(); 
+  if (root !== cwd) {
+    const cdProjString = path.relative(cwd, root);
+    console.log(
+      `  ${bold(
+        green(
+          `cd ${cdProjString.includes(' ') ? `"${cdProjString}"` : `${cdProjString}`}`,
+        ),
+      )}`,
+    );
+  }
+  console.log(`  ${bold(green('pnpm i'))}`);
+  console.log(`  ${bold(green('pnpm lint'))}`);
+  console.log(`  ${bold(green('pnpm dev'))}`);
+  console.log();
 }
 
 async function getResult() {

@@ -2,7 +2,6 @@ import path from 'path';
 import fs from 'fs';
 
 /**
- *
  *  `_filename` 被重命名为 `.filename`
  *  `package.json` 下的目录会被递归合并
  * @param {string} src 将要拷贝的目录
