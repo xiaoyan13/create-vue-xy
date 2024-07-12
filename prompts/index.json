@@ -13,10 +13,10 @@
     "message": "请输入包名称：",
     "invalidMessage": "无效的 package.json 名称"
   },
-  "needAxios": {
+  "needsAxios": {
     "message": "是否需要 axios 与其配置封装？"
   },
-  "needUtils": {
+  "needsUtils": {
     "message": "是否需要一些开箱即用的工具？(详情请查看文档)"
   },
   "needsDevTools": {
@@ -29,7 +29,7 @@
     "active": "是",
     "inactive": "否"
   },
-  "info": {
+  "infos": {
     "scaffolding": "正在初始化项目",
     "done": "项目初始化完成,可执行以下命令: "
   }
