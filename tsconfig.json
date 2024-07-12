@@ -4,7 +4,7 @@
   "compilerOptions": {
     // any script, 启动
     "strict": false,
-    // 编译器器开启 json 文件的识别
+    // ts 编译器器开启 json 文件的识别
     "resolveJsonModule": true,
     // 告诉编译器所有 ts 模块语法均严格遵循 ESM 规范标准, 即禁用掉 ts require()
     "module": "ESNext",

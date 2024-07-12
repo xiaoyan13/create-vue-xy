@@ -1,5 +1,4 @@
-export interface LanguageItem {
-  hint?: string;
+export interface PromptItem {
   message: string;
   invalidMessage?: string;
   dirForPrompts?: {
@@ -10,24 +9,15 @@ export interface LanguageItem {
     active: string;
     inactive: string;
   };
-  selectOptions?: {
-    [key: string]: { title: string; desc?: string };
-  };
 }
 
-export interface Language {
-  projectName: LanguageItem;
-  shouldOverwrite: LanguageItem;
-  packageName: LanguageItem;
-  needsTypeScript: LanguageItem;
-  needsJsx: LanguageItem;
-  needsRouter: LanguageItem;
-  needsPinia: LanguageItem;
-  needsVitest: LanguageItem;
-  needsE2eTesting: LanguageItem;
-  needsEslint: LanguageItem;
-  needsPrettier: LanguageItem;
-  needsDevTools: LanguageItem;
+export interface Prompts {
+  projectName: PromptItem;
+  shouldOverwrite: PromptItem;
+  packageName: PromptItem;
+  needsAxios: PromptItem;
+  needsUtils: PromptItem;
+  needsDevTools: PromptItem;
   errors: {
     operationCancelled: string;
   };
