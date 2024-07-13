@@ -11,6 +11,6 @@
     // 模块最终解析策略指定受构建工具影响，即 ts 编译器将尽可能的查找模块，这包括开启 package.json 的 exports/imports 识别
     "moduleResolution": "Bundler",
     // 开启此选项后，模块文件的编译将考虑 import cjs 库文件的行为，并编译出该行为能正常工作的代码
-    "esModuleInterop": true,
+    "esModuleInterop": true
   }
 }

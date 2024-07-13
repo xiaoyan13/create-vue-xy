@@ -8,6 +8,8 @@ import emptyDir from './utils/emptyDir';
 import { isValidPackageName, toValidPackageName } from './utils/packageName';
 import promptsJSON from './prompts/index.json';
 import { renderTemplate } from './utils/renderTemplate';
+import { preOrderDirectoryTraverse } from './utils/directoryTraverse';
+import ejs from 'ejs';
 
 // 处理命令行参数
 const args = process.argv.slice(2);
@@ -106,19 +108,67 @@ async function setup() {
   const render = (templateName) => {
     const templateDir = path.resolve(templateRoot, templateName);
     renderTemplate(templateDir, root, callbacks);
-  }
+  };
 
   // 首先渲染 template/base
-  render('base')
+  render('base');
 
   // 处理 axios 配置和 utils 配置
   if (!needsAxios) {
-    
+    const targetDir = path.resolve(root, 'src/api');
+    if (fs.existsSync(targetDir)) {
+      emptyDir(targetDir);
+      fs.rmdirSync(targetDir);
+    }
   }
+  if (!needsUtils) {
+    const targetDir = path.resolve(root, 'src/common');
+    if (fs.existsSync(targetDir)) {
+      emptyDir(targetDir);
+      fs.rmdirSync(targetDir);
+    }
+  }
+
+  /**
+   * 处理 vite 插件。
+   * 我们使用 ejs 库来拼接出 js/ts 文件。我们约定,
+   * 某个目录下的 .data.mjs 用来渲染同级目录中的同名 .ejs 文件。
+   */
+  if (needsDevTools) {
+    // 删除默认的 plugins.ts
+    fs.unlinkSync(path.resolve(root, 'vite/plugins.ts'));
+    // 添加初始的 ejs 代码，他们最终将被渲染为对应的同级目录下的同名文件
+    render('default-ejs');
+    // render vue-devtools 需要的 .data.mjs
+    render('vue-devtools');
+  }
+
+  // 收集
+  const dataStore = {};
+  for (const cb of callbacks) {
+    await cb(dataStore);
+  }
+
+  // render ejs
+  preOrderDirectoryTraverse(
+    root,
+    () => {},
+    (filepath: string) => {
+      if (filepath.endsWith('.ejs')) {
+        const dest = filepath.replace(/\.ejs$/, '');
+        const ejsTemplate = fs.readFileSync(filepath, 'utf8');
+
+        const res = ejs.render(ejsTemplate, dataStore[dest]);
+
+        fs.writeFileSync(dest, res);
+        // 记得删除 ejs
+        fs.unlinkSync(filepath);
+      }
+    },
+  );
 
   // 包管理器检测
   const userAgent = process.env.npm_config_user_agent ?? '';
-  console.log("🚀 ~ setup ~ userAgent:", userAgent)
   const packageManager = /pnpm/.test(userAgent)
     ? 'pnpm'
     : /yarn/.test(userAgent)
@@ -159,7 +209,7 @@ async function getResult() {
         message: promptsJSON.projectName.message,
         initial: defaultProjectName,
         onState: (state) =>
-          (targetDir = (String(state.value.trim()) || defaultProjectName)),
+          (targetDir = String(state.value.trim()) || defaultProjectName),
       },
       {
         name: 'shouldOverwrite',

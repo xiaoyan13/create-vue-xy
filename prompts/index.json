@@ -14,13 +14,13 @@
     "invalidMessage": "无效的 package.json 名称"
   },
   "needsAxios": {
-    "message": "是否需要 axios 与其配置封装？"
+    "message": "是否需要 axios 的配置封装？"
   },
   "needsUtils": {
-    "message": "是否需要一些开箱即用的工具？(详情请查看文档)"
+    "message": "是否需要一些开箱即用的 utils？(详情请查看文档)"
   },
   "needsDevTools": {
-    "message": "是否引入 Vue DevTools ?"
+    "message": "是否要引入 Vue DevTools ?"
   },
   "errors": {
     "operationCancelled": "操作取消"
