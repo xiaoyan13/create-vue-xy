@@ -33,12 +33,17 @@ export function renderTemplate(src, dest, callbacks) {
   const filename = path.basename(src);
 
   // 合并 package.json
-  if (filename === 'package.json' && fs.readFileSync(dest)) {
-    const existing = JSON.parse(fs.readFileSync(dest, 'utf8'));
-    const news = JSON.parse(fs.readFileSync(src, 'utf8'));
-    const pkg = sortDependencies(deepMerge(existing, news));
-    fs.writeFileSync(dest, JSON.stringify(pkg, null, 2) + '\n');
-    return;
+  if (filename === 'package.json') {
+    // 如果目标目录还没有，则创建
+    if (!fs.existsSync(dest)) {
+      fs.copyFileSync(src, dest);
+    } else {
+      const existing = JSON.parse(fs.readFileSync(dest, 'utf8'));
+      const news = JSON.parse(fs.readFileSync(src, 'utf8'));
+      const pkg = sortDependencies(deepMerge(existing, news));
+      fs.writeFileSync(dest, JSON.stringify(pkg, null, 2) + '\n');
+      return;
+    }
   }
 
   // 处理 ejs 模板的 .data.mjs
