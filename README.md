@@ -1,8 +1,6 @@
 # create-vue-xy
 
-An Out-of-the-Box Scaffolding with Vue.js
-
-开箱即用的 vue 脚手架
+An Out-of-the-Box Scaffolding with Vue.js.
 
 ## 使用方式
 
@@ -61,7 +59,7 @@ pnpm create vue-xy --axios # 启用 axios
 
 - 项目提供了开箱即用的多语言支持, 内置 [`vue-i18n@9`](https://github.com/intlify/vue-i18n) 的配置。
 
-## VSCode 的配置
+## VSCode
 
 在正式开始之前，可能还需要调整一下 vscode：
 
