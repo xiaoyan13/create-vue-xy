@@ -3,9 +3,6 @@ import path from 'node:path';
 
 export function preOrderDirectoryTraverse(dir, dirCb, fileCb) {
   for (const filename of fs.readdirSync(dir)) {
-    if (filename === '.git') {
-      continue;
-    }
     const fullpath = path.resolve(dir, filename);
     if (fs.lstatSync(fullpath).isDirectory()) {
       dirCb(fullpath);
@@ -19,9 +16,6 @@ export function preOrderDirectoryTraverse(dir, dirCb, fileCb) {
 
 export function postOrderDirectoryTraverse(dir, dirCb, fileCb) {
   for (const filename of fs.readdirSync(dir)) {
-    if (filename === '.git') {
-      continue;
-    }
     const fullpath = path.resolve(dir, filename);
     if (fs.lstatSync(fullpath).isDirectory()) {
       postOrderDirectoryTraverse(fullpath, dirCb, fileCb);

@@ -37,7 +37,10 @@ const isFlagUsed: boolean =
  * 这意味着用户如果使用命令行参数，将只能传入相对路径
  */
 let targetDir = positionals[0];
-// 如果目标目录存在，则将它的名字作为默认的项目名称
+/**
+ * 我们一开始有一个 defaultProjectName,
+ * 他的值取决于一开始用户传入的命令行参数是否为空
+ */
 const defaultProjectName = targetDir ?? 'my-awesome-site';
 
 async function setup() {
@@ -96,12 +99,26 @@ async function setup() {
     JSON.stringify(pkg, null, 2),
   );
 
+  // 渲染
   const templateRoot = path.resolve(cwd, 'template');
   const callbacks = [];
-  renderTemplate(templateRoot, root, callbacks);
 
-  // 包管理器
+  const render = (templateName) => {
+    const templateDir = path.resolve(templateRoot, templateName);
+    renderTemplate(templateDir, root, callbacks);
+  }
+
+  // 首先渲染 template/base
+  render('base')
+
+  // 处理 axios 配置和 utils 配置
+  if (!needsAxios) {
+    
+  }
+
+  // 包管理器检测
   const userAgent = process.env.npm_config_user_agent ?? '';
+  console.log("🚀 ~ setup ~ userAgent:", userAgent)
   const packageManager = /pnpm/.test(userAgent)
     ? 'pnpm'
     : /yarn/.test(userAgent)
@@ -111,7 +128,7 @@ async function setup() {
         : 'npm';
   if (packageManager !== 'pnpm') {
     console.log(
-      yellow('项目使用 pnpm 作为包管理器: 请留意，您使用的并不是 pnpm.'),
+      yellow('本项目使用 pnpm 作为包管理器: 请留意，您使用的并不是 pnpm.'),
     );
   }
   console.log(`\n${promptsJSON.infos.done}\n`);
@@ -136,15 +153,17 @@ async function getResult() {
     [
       {
         name: 'projectName',
+        // 如果已经通过命令行参数传入了，则不再需要输入 projectName
+        // 反之，如果需要用户交互，则此时 defaultProjectName 为 'my-awesome-site'
         type: targetDir ? null : 'text',
         message: promptsJSON.projectName.message,
         initial: defaultProjectName,
         onState: (state) =>
-          (targetDir = String(state.value.trim()) || defaultProjectName),
+          (targetDir = (String(state.value.trim()) || defaultProjectName)),
       },
       {
         name: 'shouldOverwrite',
-        // 如果传参 --force 或者该目录本就不存在，则跳过
+        // 如果传参 --force 或者 targetDir 为空，则跳过
         type: () => (argv.force || !fs.existsSync(targetDir) ? null : 'toggle'),
         message: () => {
           // 我们判断目标目录是否是 '.' 来拼接将要打印的内容
