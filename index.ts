@@ -95,14 +95,9 @@ async function setup() {
   } else if (!fs.existsSync(root)) {
     fs.mkdirSync(root);
   }
-  const pkg = { name: packageName, version: '0.0.0' };
-  fs.writeFileSync(
-    path.resolve(root, 'package.json'),
-    JSON.stringify(pkg, null, 2),
-  );
 
   // 渲染
-  const templateRoot = path.resolve(cwd, 'template');
+  const templateRoot = path.resolve(__dirname, 'template');
   const callbacks = [];
 
   const render = (templateName) => {
@@ -112,6 +107,12 @@ async function setup() {
 
   // 首先渲染 template/base
   render('base');
+
+  // 处理 package.json 的主字段，这里暂时只需要处理 package.json 的 name 字段
+  const packageJSON = JSON.parse(
+    fs.readFileSync(path.resolve(root, 'package.json'), 'utf-8'),
+  );
+  packageJSON.name = packageName;
 
   // 处理 axios 配置和 utils 配置
   if (!needsAxios) {
