@@ -9,7 +9,7 @@
   },
   "files": [
     "./outfile.cjs",
-    "prompts/"
+    "template/"
   ],
   "scripts": {
     "build": "zx ./scripts/build.js",
