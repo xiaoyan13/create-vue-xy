@@ -54,7 +54,7 @@ pnpm lint:inspect
 pnpm create vue-xy --axios # 启用 axios
 ```
 
-> ![WARNING]
+> [!WARNING]
 > 需要注意，一旦传入 `--` 的命令行参数，则不会再提供这些可选配置的交互行为。
 
 其他还有一些配置是默认的：
@@ -72,7 +72,7 @@ pnpm create vue-xy --axios # 启用 axios
 - tailwind 官方插件
 - prettier 官方插件
 
-> ![WARNING]
+> [!WARNING]
 > 注意本地已经存在的插件可能会覆盖掉上述插件某些功能，从而影响语法提示，进而影响食用体验。
 
 - 可选的插件：`i18n`

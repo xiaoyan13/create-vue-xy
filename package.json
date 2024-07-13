@@ -1,7 +1,7 @@
 {
   "name": "create-vue-xy",
   "version": "1.0.0",
-  "description": "A vue scaffolding ready for use",
+  "description": "An Out-of-the-Box Scaffolding with Vue.js",
   "packageManager": "pnpm@9.4.0",
   "type": "module",
   "engines": {
@@ -11,13 +11,17 @@
     "./outfile.cjs",
     "template/"
   ],
+  "bin": {
+    "create-vue": "outfile.cjs"
+  },
   "scripts": {
     "build": "zx ./scripts/build.js",
     "test": "pnpm build && node ./outfile.cjs"
   },
   "keywords": [],
   "author": "xiaoyan13 <kurumi13233@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
+  "homepage": "https://github.com/xiaoyan13/create-vue-xy",
   "dependencies": {
     "@tsconfig/node20": "^20.1.4",
     "@types/ejs": "^3.1.5",
