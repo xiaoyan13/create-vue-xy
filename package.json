@@ -16,7 +16,8 @@
   },
   "scripts": {
     "build": "zx ./scripts/build.js",
-    "test": "pnpm build && node ./outfile.cjs"
+    "test": "pnpm build && node ./outfile.cjs",
+    "pub": "pnpm run build && pnpm publish"
   },
   "keywords": [],
   "author": "xiaoyan13 <kurumi13233@gmail.com>",
