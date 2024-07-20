@@ -111,10 +111,12 @@ async function setup() {
   render('base');
 
   // 处理 package.json 的主字段，这里暂时只需要处理 package.json 的 name 字段
-  const packageJSON = JSON.parse(
-    fs.readFileSync(path.resolve(root, 'package.json'), 'utf-8'),
-  );
+  const pkgFile = path.resolve(root, 'package.json');
+  const packageJSON = JSON.parse(fs.readFileSync(pkgFile, 'utf-8'));
+  
   packageJSON.name = packageName;
+
+  fs.writeFileSync(pkgFile, JSON.stringify(packageJSON, null, 2));
 
   // 处理 axios 配置和 utils 配置
   if (!needsAxios) {

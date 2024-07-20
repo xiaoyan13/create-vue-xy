@@ -9,13 +9,14 @@ export default function deepMerge(target, obj) {
     const oldVal = target[key];
     const newVal = obj[key];
 
-    // 如果均是数组/对象则 merge，原始值则覆盖
+    // 如果均是数组/对象则 merge
     if (Array.isArray(oldVal) && Array.isArray(newVal)) {
       target[key] = mergeArrayWithDedupe(oldVal, newVal);
     } else if (isObject(oldVal) && isObject(newVal)) {
       target[key] = deepMerge(oldVal, newVal);
     } else {
-      target[key];
+      // 如果 target 中原值为原始值或者根本不存在，则覆盖
+      target[key] = newVal;
     }
 
     return target;
