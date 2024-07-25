@@ -11,4 +11,7 @@ await esbuild.build({
   platform: 'node',
   // 入口
   entryPoints: ['index.ts'],
+  banner: {
+    js: '#!/usr/bin/env node',
+  },
 });

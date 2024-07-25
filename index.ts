@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { parseArgs } from 'util';
 import fs from 'fs';
 import * as banners from './utils/banner';
