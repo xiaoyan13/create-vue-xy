@@ -17,8 +17,8 @@ pnpm create vue-xy
 
 ```sh
 pnpm dev
-pnpm lint
 pnpm lint:inspect
+git init .
 ```
 
 ## 基础配置
