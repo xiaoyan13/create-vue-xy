@@ -66,7 +66,7 @@ async function setup() {
   try {
     result = await getResult();
   } catch (cancelled) {
-    console.log(cancelled);
+    console.log(cancelled.toString().split('\n')[0]);
     process.exit(1);
   }
 
@@ -275,7 +275,7 @@ async function getResult() {
     ],
     {
       onCancel: () => {
-        throw new Error(red('✖' + `${promptsJSON.errors.operationCancelled}`));
+        throw new Error(red('✖' + ` ${promptsJSON.errors.operationCancelled}`));
       },
     },
   );

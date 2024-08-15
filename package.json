@@ -1,6 +1,6 @@
 {
   "name": "create-vue-xy",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "An Out-of-the-Box Scaffolding with Vue.js",
   "packageManager": "pnpm@9.4.0",
   "type": "module",
